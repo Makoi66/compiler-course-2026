@@ -24,8 +24,10 @@ struct InvertRelationalIcmpPass : PassInfoMixin<InvertRelationalIcmpPass> {
           Value *LHS = CmpInst->getOperand(0);
           Value *RHS = CmpInst->getOperand(1);
 
-          Value *NewCmp = Builder.CreateICmp(InvPred, LHS, RHS, CmpInst->getName() + ".rev");
-          Value *NegCmp = Builder.CreateNot(NewCmp, CmpInst->getName() + ".not");
+          Value *NewCmp = Builder.CreateICmp(InvPred, LHS, RHS,
+                                             CmpInst->getName() + ".rev");
+          Value *NegCmp =
+              Builder.CreateNot(NewCmp, CmpInst->getName() + ".not");
 
           CmpInst->replaceAllUsesWith(NegCmp);
           CmpInst->eraseFromParent();
